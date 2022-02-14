@@ -12,7 +12,7 @@ export default function Footer({icon}){
         <View style={styles.container}>
 
             <TouchableOpacity style={styles.button}>
-                <Image source={add} style={styles.image}/>
+                <Image source={icon == "add" ? add : save /*SE A PROPS icon FOR IGUAL A ADD ENTÃO MOSTRA O BOTÃO DE ADICIONAR SENÃO MOSTRA O DE SALVAR*/} style={styles.image}/>
             </TouchableOpacity>
 
             <Text style={styles.text}> ToDO - Organizando a sua vida </Text>

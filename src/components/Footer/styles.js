@@ -5,23 +5,24 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 70,
         backgroundColor: "#20295F",
-
-        borderWidth: 10,
-        borderColor: "red",
-
-        flex: 1,
         position: "absolute",
         bottom: 0,
-
+        borderTopWidth: 5,
+        borderColor: "#EE6B26",
+        alignItems: "center",
     },
     button:{
 
     },
     image:{
-
+        position: "relative",
+        bottom: 40,
     },
     text:{
-        color: "#000",
+        color: "#fff",
+        position: 'relative',
+        bottom: 30,
+        fontWeight: "bold",
     }
 })
 

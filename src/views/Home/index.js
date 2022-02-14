@@ -10,7 +10,7 @@ export default function Home(){
     return (
         <View style={styles.container}>
             <Header showNotification={true} showBack={false}/>
-            <Footer/>
+            <Footer icon={"add"}/>
         </View>
     )
 }
