@@ -57,16 +57,7 @@ export default function Home(){
             </View>
 
             <ScrollView style={styles.content} contentContainerStyle={{alignItems: "center", marginRight: 5,}}>
-                <TaskCard done={true}/>
-                <TaskCard/>
-                <TaskCard/>
-                <TaskCard/>
-                <TaskCard/>
-                <TaskCard/>
-                <TaskCard/>
-                <TaskCard/>
-                <TaskCard/>
-                <TaskCard/>
+                <TaskCard done={false}/>
             </ScrollView>
 
             <Footer icon={"add" /*PASSANDO UMA PROPS DE ADICIONAR*/}/>
