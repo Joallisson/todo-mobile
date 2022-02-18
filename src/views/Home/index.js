@@ -81,7 +81,7 @@ export default function Home(){
 
                 ://Senão tiver mais carregando então mostra as tarefas para o usuário
                 tasks.map(item => ( // A FUNÇÃO MAP É UM LAÇO DE REPETIÇÃO QUE PERCORRE UM ARRAY E RETORNA UM OBJETO COM AS INFORMAÇÕES
-                    <TaskCard done={false} when={item.when} title={item.title}/>
+                    <TaskCard key={item._id} type={item.type} done={false} when={item.when} title={item.title}/>
                 ))
                 }
             </ScrollView>
