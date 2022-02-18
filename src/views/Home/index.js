@@ -18,7 +18,7 @@ export default function Home(){
 
     async function loadTasks(){ //Carregar tarefas sempre que o usuário clicar nos filtros
         setLoad(true) //mostrando o símbolo de carregar as tarefas
-        await api.get('/task/filter/all/11:11:11:11:11:11')
+        await api.get(`/task/filter/${filter}/11:11:11:11:11:11`)
         .then(response => { //Se der tudo certo na requisição
             setTasks(response.data)
             setLoad(false) //sumindo com o símbolo de carregar as tarefas
@@ -27,7 +27,7 @@ export default function Home(){
 
     useEffect(() => {
         loadTasks()
-    }, [])
+    }, [filter])
 
     return (
         <View style={styles.container}>
