@@ -38,6 +38,10 @@ const styles = StyleSheet.create({
         top: 11,
         backgroundColor: "#FFF",
         paddingHorizontal: 10,
+    },
+    content:{
+        width: "100%",
+        marginBottom: 70,
     }
 })
 

@@ -4,9 +4,9 @@
     "slug": "todo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icons-default/icon.png",
+    "icon": "./src/assets/icons-default/icon.png",
     "splash": {
-      "image": "./assets/icons-default/splash.png",
+      "image": "./src/assets/icons-default/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,12 +21,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icons-default/adaptive-icon.png",
+        "foregroundImage": "./src/assets/icons-default/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/icons-default/favicon.png"
+      "favicon": "./src/assets/icons-default/favicon.png"
     }
   }
 }

@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         padding: 10,
         marginVertical: 10,
-        width: "89%",
+        width: "98.5%",
         height: 80,
         shadowColor: '#000',
         shadowOffset:{

@@ -15,6 +15,7 @@ export default function Home(){
     const [filter, setFilter] = useState("today") //Definindo a variavel dos filtros
     const [tasks, setTasks] = useState([]) //Definindo a variavel das tarefas
     const [load, setLoad] = useState(false) //Definindo a variavel do carregamento
+    const [lateCount, setLateCount] = useState(5) //Quantidade de tarefas atrasadas
 
     async function loadTasks(){ //Carregar tarefas sempre que o usuário clicar nos filtros
         setLoad(true) //mostrando o símbolo de carregar as tarefas
@@ -25,13 +26,25 @@ export default function Home(){
         })
     }
 
+    async function lateVerify(){ //Carregar tarefas sempre que o usuário clicar nos filtros
+        await api.get('/task/filter/late/11:11:11:11:11:11') //Vericar as tarefas atrasadas
+        .then(response => { //Se der tudo certo na requisição
+            setLateCount(response.data.length) //Conta quantas tarefas atrasadas tem
+        })
+    }
+
+    function Notification(){ //Mostrar tarefas atrasadas
+        setFilter("late")
+    }
+
     useEffect(() => {
         loadTasks()
+        lateVerify()
     }, [filter])
 
     return (
         <View style={styles.container}>
-            <Header showNotification={true /*PASSANDO UMA PROPS DE NOTIFICAÇÃO*/} showBack={false /*PASSANDO UMA PROPS  DE VOLTAR UMA TELA*/}/>
+            <Header late={lateCount} pressNotification={Notification/*passando como props uma função para mostrar as notificações*/} showNotification={true /*PASSANDO UMA PROPS DE NOTIFICAÇÃO*/} showBack={false /*PASSANDO UMA PROPS  DE VOLTAR UMA TELA*/}/>
 
             <View style={styles.filter}>
                 <TouchableOpacity onPress={() => setFilter("all")}>
@@ -71,7 +84,7 @@ export default function Home(){
             </View>
 
             <View style={styles.title}>
-                <Text style={styles.titleText}>TAREFAS</Text>
+                <Text style={styles.titleText}>TAREFAS {filter == 'late' && "ATRASADAS"}</Text>
             </View>
 
             <ScrollView style={styles.content} contentContainerStyle={{alignItems: "flex-start", marginLeft: 5,}}>
