@@ -19,6 +19,9 @@ import Footer from '../../components/Footer'
 import typeIcons from '../../utils/typeIcons'
 
 export default function Task(){
+
+    const [done, setDone] = useState(false)
+
     return(
         <KeyboardAvoidingView style={styles.container}>
             <Header showBack={true}/>
@@ -39,11 +42,11 @@ export default function Task(){
                 <TextInput style={styles.input} maxLength={30} placeholder={"Lembre-me de fazer..."}/>
 
                 <Text style={styles.label}>Detalhes</Text>
-                <TextInput style={styles.input} multiline={true} maxLength={200} placeholder={"Detalhes da atividade que eu tenho que lembrar..."}/>
+                <TextInput style={styles.inputArea} multiline={true} maxLength={200} placeholder={"Detalhes da atividade que eu tenho que lembrar..."}/>
 
                 <View style={styles.inLine}>
                     <View style={styles.inputInLine}>
-                        <Switch/>
+                        <Switch onValueChange={() => setDone(!done)} value={done} thumbColor={done ? '#EE6B26' : '#20295F'}/>
                         <Text style={styles.switchLabel}>Concluído</Text>
                     </View>
 
