@@ -9,18 +9,19 @@ import {View,
         KeyboardAvoidingView,
         TouchableOpacity,
         Switch
-} from 'react-native'
+} from 'react-native';
 
 //COMPONENTES
-import Header from '../../components/Header'
-import Footer from '../../components/Footer'
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import DateTimeInputAndroid from "../../components/DateTimeInput/index.android";
 
 //Ícones
-import typeIcons from '../../utils/typeIcons'
+import typeIcons from '../../utils/typeIcons';
 
 export default function Task(){
 
-    const [done, setDone] = useState(false)
+    const [done, setDone] = useState(false);
 
     return(
         <KeyboardAvoidingView style={styles.container}>
@@ -29,10 +30,10 @@ export default function Task(){
 
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginVertical: 10}}>
                     {
-                        typeIcons.map((icon) =>(
+                        typeIcons.map((icon, i) =>(
                             icon != null &&
-                            <TouchableOpacity>
-                                <Image key={icon} source={icon} style={styles.imageIcon}/>
+                            <TouchableOpacity key={i}>
+                                <Image key={i} source={icon} style={styles.imageIcon}/>
                             </TouchableOpacity>
                         ))
                     }
