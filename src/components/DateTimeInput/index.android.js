@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker'; //Importando DateTimePicker que é responsável por capturar a data e hora
+import format from "date-fns/format";
 import {
     TouchableOpacity,
     Image,
@@ -40,7 +41,7 @@ export default function DateTimeInputAndroid({type}){
       async function selectDataOrHour(){
           if (type == 'date') {
             showDatepicker();
-          }else if(type == 'time'){
+          }else if(type == 'hour'){
             showTimepicker();
           }
       }
@@ -51,7 +52,7 @@ export default function DateTimeInputAndroid({type}){
             style={styles.input}
             placeholder={type == 'date' ? "Clique aqui para definir a data..." : "Clique aqui para definir a hora..."}
             editable={false}
-            value={date}
+            value={ type == 'date' ? format(date, 'dd/MM/yyyy') : format(date, 'HH:mm')}
           />
 
           <Image

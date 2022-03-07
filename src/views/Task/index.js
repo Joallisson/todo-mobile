@@ -24,7 +24,8 @@ export default function Task(){
     const [done, setDone] = useState(false);
 
     return(
-        <KeyboardAvoidingView style={styles.container}>
+        <View>
+        <KeyboardAvoidingView behavior={"height"} style={styles.container}>
             <Header showBack={true}/>
             <ScrollView style={{width:'100%'}}>
 
@@ -45,7 +46,10 @@ export default function Task(){
                 <Text style={styles.label}>Detalhes</Text>
                 <TextInput style={styles.inputArea} multiline={true} maxLength={200} placeholder={"Detalhes da atividade que eu tenho que lembrar..."}/>
 
-                <View style={styles.inLine}>
+                <DateTimeInputAndroid type={'date'}/>
+                <DateTimeInputAndroid type={'hour'}/>
+
+                <View style={styles.inLine /*BOTÕES DE CONCLUIR E EXCLUIR*/}>
                     <View style={styles.inputInLine}>
                         <Switch onValueChange={() => setDone(!done)} value={done} thumbColor={done ? '#EE6B26' : '#20295F'}/>
                         <Text style={styles.switchLabel}>Concluído</Text>
@@ -57,7 +61,8 @@ export default function Task(){
                 </View>
 
             </ScrollView>
-            <Footer/>
+            <Footer style={{position: 'fixed', bottom: 0}} icon={'save'}/>
         </KeyboardAvoidingView>
+        </View>
     )
 }
