@@ -24,8 +24,7 @@ export default function Task(){
     const [done, setDone] = useState(false);
 
     return(
-        <View>
-        <KeyboardAvoidingView behavior={"height"} style={styles.container}>
+        <KeyboardAvoidingView keyboardVerticalOffset={-100/*DEIXAR O FOOTER SEM APARECER*/} behavior="height" style={styles.container}>
             <Header showBack={true}/>
             <ScrollView style={{width:'100%'}}>
 
@@ -61,8 +60,8 @@ export default function Task(){
                 </View>
 
             </ScrollView>
-            <Footer style={{position: 'fixed', bottom: 0}} icon={'save'}/>
+
+            <Footer icon={'save'}/>
         </KeyboardAvoidingView>
-        </View>
     )
 }

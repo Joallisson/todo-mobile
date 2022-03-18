@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'top',
     },
     inLine:{
+        marginBottom: 120,
         width: '95%',
         flexDirection: 'row',
         alignItems: 'center',
