@@ -87,10 +87,10 @@ export default function Home(){
                 <Text style={styles.titleText}>TAREFAS {filter == 'late' && "ATRASADAS"}</Text>
             </View>
 
-            <ScrollView style={styles.content} contentContainerStyle={{alignItems: "flex-start", marginLeft: 5,}}>
+            <ScrollView style={styles.content} contentContainerStyle={{alignItems: "center", marginLeft: 5,}}>
                 {
                 load ? //Se o load for verdadeiro carrega o simbolo de load
-                    <ActivityIndicator color="#EE6B26" size={50}/>
+                    <ActivityIndicator style={{}} color="#EE6B26" size={50}/>
 
                 ://Senão tiver mais carregando então mostra as tarefas para o usuário
                 tasks.map(item => ( // A FUNÇÃO MAP É UM LAÇO DE REPETIÇÃO QUE PERCORRE UM ARRAY E RETORNA UM OBJETO COM AS INFORMAÇÕES
