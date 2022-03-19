@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import styles from "./style";
 
 import {View, 
@@ -20,7 +20,9 @@ import DateTimeInputAndroid from "../../components/DateTimeInput/index.android";
 //Ícones
 import typeIcons from '../../utils/typeIcons';
 
-import api from '../../services/api';
+//APIs
+import api from '../../services/api'; //Api que REST que eu desenvolvi
+import * as Network from 'expo-network'; //API do expo network
 
 export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO DO createSwitchNavigator DO ARQUIVO app.js*/}){
 
@@ -62,6 +64,16 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
             navigation.navigate('Home');
         });
     }
+
+    async function getMacAddress(){
+        Network.getMacAddressAsync().then(mac => { //Pegando o MacAddress do celular ## MAS LEMBRANDO QUE ESSA FUNÇÃO SERÁ REMOVIDA NA PRÓXIMA TUALIZAÇÃO
+            setMacaddress(mac);
+        });
+    }
+
+    useEffect(() => {
+        getMacAddress(); //Chama fynção pra Pegar o MacAddress do celular
+    });
 
     return(
         <KeyboardAvoidingView keyboardVerticalOffset={-100/*DEIXAR O FOOTER SEM APARECER*/} behavior="height" style={styles.container}>
