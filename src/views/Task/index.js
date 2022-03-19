@@ -22,6 +22,11 @@ import typeIcons from '../../utils/typeIcons';
 export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO DO createSwitchNavigator DO ARQUIVO app.js*/}){
 
     const [done, setDone] = useState(false);
+    const [type, setType] = useState();
+    const [title, setTitle] = useState();
+    const [description, setDescription] = useState();
+    const [when, setWhen] = useState();
+    const [macaddress, setMacaddress] = useState('11:11:11:11:11:11');
 
     return(
         <KeyboardAvoidingView keyboardVerticalOffset={-100/*DEIXAR O FOOTER SEM APARECER*/} behavior="height" style={styles.container}>
@@ -30,10 +35,10 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
 
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginVertical: 10}}>
                     {
-                        typeIcons.map((icon, i) =>(
+                        typeIcons.map((icon, index) =>(
                             icon != null &&
-                            <TouchableOpacity key={i}>
-                                <Image key={i} source={icon} style={styles.imageIcon}/>
+                            <TouchableOpacity onPress={() => setType(index)} key={index}>
+                                <Image key={index} source={icon} style={[styles.imageIcon, type && type != index && styles.typeIconInative]}/>
                             </TouchableOpacity>
                         ))
                     }
