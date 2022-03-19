@@ -10,7 +10,7 @@ import TaskCard from "../../components/TaskCard";
 //API
 import api from "../../services/api"
 
-export default function Home(){
+export default function Home({navigation /*ESSA PROPS navigation QUE TÁ DENTRO DO createSwitchNavigator DO ARQUIVO app.js*/}){
 
     const [filter, setFilter] = useState("today") //Definindo a variavel dos filtros
     const [tasks, setTasks] = useState([]) //Definindo a variavel das tarefas
@@ -35,6 +35,10 @@ export default function Home(){
 
     function Notification(){ //Mostrar tarefas atrasadas
         setFilter("late")
+    }
+
+    function New(){
+        navigation.navigate('Task');
     }
 
     useEffect(() => {
@@ -99,7 +103,7 @@ export default function Home(){
                 }
             </ScrollView>
 
-            <Footer icon={"add" /*PASSANDO UMA PROPS DE ADICIONAR*/}/>
+            <Footer onPress={New} icon={"add" /*PASSANDO UMA PROPS DE ADICIONAR*/}/>
         </View>
     )
 }

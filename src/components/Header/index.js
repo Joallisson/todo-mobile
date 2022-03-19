@@ -9,13 +9,18 @@ import bell from '../../assets/bell.png'
 import qrcode from '../../assets/qrcode.png'
 import back from '../../assets/back.png'
 
-export default function Header({showNotification, showBack, late, pressNotification}){
+export default function Header({showNotification, showBack, late, pressNotification, navigation}){
+
+    function Back(){ //Navegadar de volta pra tela home quando clicar no botão de voltar
+        navigation.navigate('Home');
+    }
+
     return(
 
         <View style={styles.header}>
 
             { showBack ? //Se showBack for verdadeiro então aparece o ícone de voltar
-            <TouchableOpacity style={styles.leftIconBackContaiber /* Ícone do qrcode*/}>
+            <TouchableOpacity onPress={Back} style={styles.leftIconBackContaiber /* Ícone de voltar*/}>
                 <Image source={back} style={styles.leftIconBackImage}/>
             </TouchableOpacity>
             : //Senão aparece o ícone do qrcode

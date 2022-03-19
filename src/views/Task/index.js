@@ -19,13 +19,13 @@ import DateTimeInputAndroid from "../../components/DateTimeInput/index.android";
 //Ícones
 import typeIcons from '../../utils/typeIcons';
 
-export default function Task(){
+export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO DO createSwitchNavigator DO ARQUIVO app.js*/}){
 
     const [done, setDone] = useState(false);
 
     return(
         <KeyboardAvoidingView keyboardVerticalOffset={-100/*DEIXAR O FOOTER SEM APARECER*/} behavior="height" style={styles.container}>
-            <Header showBack={true}/>
+            <Header navigation={navigation} showBack={true}/>
             <ScrollView style={{width:'100%'}}>
 
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginVertical: 10}}>
