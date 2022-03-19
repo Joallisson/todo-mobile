@@ -8,7 +8,8 @@ import {View,
         TextInput,
         KeyboardAvoidingView,
         TouchableOpacity,
-        Switch
+        Switch,
+        Alert
 } from 'react-native';
 
 //COMPONENTES
@@ -19,14 +20,48 @@ import DateTimeInputAndroid from "../../components/DateTimeInput/index.android";
 //Ícones
 import typeIcons from '../../utils/typeIcons';
 
+import api from '../../services/api';
+
 export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO DO createSwitchNavigator DO ARQUIVO app.js*/}){
 
+    //Dados que serão armazenados no banco de dados
     const [done, setDone] = useState(false);
     const [type, setType] = useState();
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
-    const [when, setWhen] = useState();
+    const [date, setDate] = useState();
+    const [hour, setHour] = useState();
     const [macaddress, setMacaddress] = useState('11:11:11:11:11:11');
+
+    async function New(){ //Essa função será executada quando criar uma nova tarefa
+        //Alert.alert(`${date}T${hour}.000`);
+
+        if (!title) {
+            return Alert.alert("Defina o nome da terefa");
+        }
+        if (!type) {
+            return Alert.alert("Defina o tipo da terefa");
+        }
+        if(!description){
+            return Alert.alert("Defina a descrição da terefa");
+        }
+        if (!date) {
+            return Alert.alert("Defina a data da terefa");
+        }
+        if (!hour) {
+            return Alert.alert("Defina o horário da terefa");
+        }
+
+        await api.post('/Task', {
+            macaddress,
+            title,
+            description,
+            type,
+            when: `${date}T${hour}.000`
+        }).then(() => {
+            navigation.navigate('Home');
+        });
+    }
 
     return(
         <KeyboardAvoidingView keyboardVerticalOffset={-100/*DEIXAR O FOOTER SEM APARECER*/} behavior="height" style={styles.container}>
@@ -45,13 +80,24 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
                 </ScrollView>
 
                 <Text style={styles.label}>Título</Text>
-                <TextInput style={styles.input} maxLength={30} placeholder={"Lembre-me de fazer..."}/>
+                <TextInput 
+                onChangeText={(text) => setTitle(text)}
+                value={title}
+                style={styles.input} 
+                maxLength={30} 
+                placeholder={"Título..."}/>
 
                 <Text style={styles.label}>Detalhes</Text>
-                <TextInput style={styles.inputArea} multiline={true} maxLength={200} placeholder={"Detalhes da atividade que eu tenho que lembrar..."}/>
+                <TextInput 
+                onChangeText={(text) => setDescription(text)}
+                value={description}
+                style={styles.inputArea} 
+                multiline={true} 
+                maxLength={200} 
+                placeholder={"Detalhes da atividade que eu tenho que lembrar..."}/>
 
-                <DateTimeInputAndroid type={'date'}/>
-                <DateTimeInputAndroid type={'hour'}/>
+                <DateTimeInputAndroid type={'date'} save={setDate}/>
+                <DateTimeInputAndroid type={'hour'} save={setHour}/>
 
                 <View style={styles.inLine /*BOTÕES DE CONCLUIR E EXCLUIR*/}>
                     <View style={styles.inputInLine}>
@@ -66,7 +112,7 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
 
             </ScrollView>
 
-            <Footer icon={'save'}/>
+            <Footer icon={'save'} onPress={New}/>
         </KeyboardAvoidingView>
     )
 }

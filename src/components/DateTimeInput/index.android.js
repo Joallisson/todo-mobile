@@ -13,7 +13,7 @@ import styles from './styles';
 import iconCalendar from '../../assets/calendar.png';
 import iconClock from '../../assets/clock.png';
 
-export default function DateTimeInputAndroid({type}){
+export default function DateTimeInputAndroid({type, save}){
     const [date, setDate] = useState(new Date()); //Criando variável de estado que recebe um objeto do tipo data que pega a data e hora atual
     const [mode, setMode] = useState('date'); //Criando variável de estado que recebe um valor 'date' como padrão
     const [show, setShow] = useState(false); //Criando variável de estado que determina se mostra ou não o calendário ou relógio pro usuário escolher
@@ -23,6 +23,13 @@ export default function DateTimeInputAndroid({type}){
         setShow(false); //Quando o usuario escolher a data ou hora, então o componente que seleciona a data e hora não será mais exibido
         setDate(currentDate); //Atribuindo a constante "currentDate" a variável de estado "date" para determinar a data e hora
         //setShow(Platform.OS === 'ios'); //Verificando qual a plataforma do que o app está rodando
+        
+        if (type == 'date') {
+          save(format(currentDate, 'yyyy-MM-dd')); //Modificando o date para ficar no formato do MongoDB
+
+        } else {
+          save(format(currentDate, 'HH:mm:ss')); //Modificando o hour para ficar no formato do MongoDB
+        }
       };
 
     function showMode(currentMode){ //Esta função é chamada pelos metódos que "showDatepicker" e "showTimepicker" e determina se o que vai ser mostrado ao usuário é o calendário ou o relógio pro usuário escolher
@@ -41,8 +48,10 @@ export default function DateTimeInputAndroid({type}){
       async function selectDataOrHour(){
           if (type == 'date') {
             showDatepicker();
+
           }else if(type == 'hour'){
             showTimepicker();
+
           }
       }
 
