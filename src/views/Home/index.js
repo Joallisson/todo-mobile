@@ -10,16 +10,20 @@ import TaskCard from "../../components/TaskCard";
 //API
 import api from "../../services/api"
 
+//Importando biblioteca para obter um ID Único DO CELLULAR
+import * as Application from 'expo-application';
+
 export default function Home({navigation /*ESSA PROPS navigation QUE TÁ DENTRO DO createSwitchNavigator DO ARQUIVO app.js*/}){
 
     const [filter, setFilter] = useState("today") //Definindo a variavel dos filtros
     const [tasks, setTasks] = useState([]) //Definindo a variavel das tarefas
     const [load, setLoad] = useState(false) //Definindo a variavel do carregamento
     const [lateCount, setLateCount] = useState(5) //Quantidade de tarefas atrasadas
+    const [macaddress, setMacaddress] = useState();
 
     async function loadTasks(){ //Carregar tarefas sempre que o usuário clicar nos filtros
         setLoad(true) //mostrando o símbolo de carregar as tarefas
-        await api.get(`/task/filter/${filter}/11:11:11:11:11:11`)
+        await api.get(`/task/filter/${filter}/${macaddress}`)
         .then(response => { //Se der tudo certo na requisição
             setTasks(response.data)
             setLoad(false) //sumindo com o símbolo de carregar as tarefas
@@ -42,6 +46,7 @@ export default function Home({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
     }
 
     useEffect(() => {
+        setMacaddress(Application.androidId);
         loadTasks()
         lateVerify()
     }, [filter])

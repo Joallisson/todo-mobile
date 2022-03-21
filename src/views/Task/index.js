@@ -17,14 +17,17 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import DateTimeInputAndroid from "../../components/DateTimeInput/index.android";
 
+//Importando biblioteca para obter um ID Único DO CELLULAR
+import * as Application from 'expo-application';
+
 //Ícones
 import typeIcons from '../../utils/typeIcons';
 
 //APIs
 import api from '../../services/api'; //Api que REST que eu desenvolvi
-import * as Network from 'expo-network'; //API do expo network
 
-export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO DO createSwitchNavigator DO ARQUIVO app.js*/}){
+
+export default function Task({navigation, idTask /*ESSA PROPS navigation QUE TÁ DENTRO DO createSwitchNavigator DO ARQUIVO app.js*/}){
 
     //Dados que serão armazenados no banco de dados
     const [done, setDone] = useState(false);
@@ -33,7 +36,7 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
     const [description, setDescription] = useState();
     const [date, setDate] = useState();
     const [hour, setHour] = useState();
-    const [macaddress, setMacaddress] = useState('11:11:11:11:11:11');
+    const [macaddress, setMacaddress] = useState();
 
     async function New(){ //Essa função será executada quando criar uma nova tarefa
         //Alert.alert(`${date}T${hour}.000`);
@@ -63,16 +66,12 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
         }).then(() => {
             navigation.navigate('Home');
         });
-    }
+    };
 
-    async function getMacAddress(){
-        Network.getMacAddressAsync().then(mac => { //Pegando o MacAddress do celular ## MAS LEMBRANDO QUE ESSA FUNÇÃO SERÁ REMOVIDA NA PRÓXIMA TUALIZAÇÃO
-            setMacaddress(mac);
-        });
-    }
 
-    useEffect(() => {
-        getMacAddress(); //Chama fynção pra Pegar o MacAddress do celular
+
+    useEffect(() => { //Essa função é achamda sempre que a tela carregar
+        setMacaddress(Application.androidId);
     });
 
     return(
@@ -111,6 +110,7 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
                 <DateTimeInputAndroid type={'date'} save={setDate}/>
                 <DateTimeInputAndroid type={'hour'} save={setHour}/>
 
+                {idTask ?
                 <View style={styles.inLine /*BOTÕES DE CONCLUIR E EXCLUIR*/}>
                     <View style={styles.inputInLine}>
                         <Switch onValueChange={() => setDone(!done)} value={done} thumbColor={done ? '#EE6B26' : '#20295F'}/>
@@ -121,6 +121,9 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
                         <Text style={styles.removeLabel}>EXCLUIR</Text>
                     </TouchableOpacity>
                 </View>
+                :
+                <View style={{paddingBottom: 100}}/> //Senão aparecer os botões acima, então deve ser exibid uma view com um espaçamento
+                }
 
             </ScrollView>
 
