@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, Alert } from "react-native";
 import styles from './styles';
 
 //Componentes
@@ -43,6 +43,10 @@ export default function Home({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
 
     function New(){
         navigation.navigate('Task');
+    }
+
+    function Show(id){ //Essa função é chamada quando o usuário quiser ver as informações das tarefas
+        navigation.navigate('Task', {idTask: id /*Passando o id como parâmetro*/});
     }
 
     useEffect(() => {
@@ -103,9 +107,17 @@ export default function Home({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
 
                 ://Senão tiver mais carregando então mostra as tarefas para o usuário
                 tasks.map(item => ( // A FUNÇÃO MAP É UM LAÇO DE REPETIÇÃO QUE PERCORRE UM ARRAY E RETORNA UM OBJETO COM AS INFORMAÇÕES
-                    <TaskCard key={item._id} type={item.type} done={false} when={item.when} title={item.title}/>
+                    <TaskCard 
+                        key={item._id} 
+                        type={item.type} 
+                        done={false}
+                        when={item.when} 
+                        title={item.title}
+                        onPress={() => Show(item._id) /*ENVIANDO A FUNÇÃO SHOW PARA O COMPONENTE TaskCard COMO PROPS*/}
+                    />
                 ))
                 }
+
             </ScrollView>
 
             <Footer onPress={New} icon={"add" /*PASSANDO UMA PROPS DE ADICIONAR*/}/>

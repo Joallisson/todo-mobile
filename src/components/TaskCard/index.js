@@ -9,9 +9,9 @@ import iconDefault from "../../assets/default.png"
 //Coleção de ícones
 import typeIcons from "../../utils/typeIcons";
 
-export default function TaskCard({done, title, when, type}){
+export default function TaskCard({done, title, when, type, onPress}){
     return(
-        <TouchableOpacity style={[styles.card, done && styles.done]}>
+        <TouchableOpacity onPress={onPress} style={[styles.card, done && styles.done]}>
 
             <View style={styles.cardLeft}>
                 <Image source={typeIcons[type]} style={styles.typeActive}/>

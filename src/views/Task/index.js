@@ -27,9 +27,10 @@ import typeIcons from '../../utils/typeIcons';
 import api from '../../services/api'; //Api que REST que eu desenvolvi
 
 
-export default function Task({navigation, idTask /*ESSA PROPS navigation QUE TÁ DENTRO DO createSwitchNavigator DO ARQUIVO app.js*/}){
+export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO DO createSwitchNavigator DO ARQUIVO app.js*/}){
 
     //Dados que serão armazenados no banco de dados
+    const [id, setId] = useState();
     const [done, setDone] = useState(false);
     const [type, setType] = useState();
     const [title, setTitle] = useState();
@@ -68,14 +69,16 @@ export default function Task({navigation, idTask /*ESSA PROPS navigation QUE TÁ
         });
     };
 
-
-
     useEffect(() => { //Essa função é achamda sempre que a tela carregar
+        if (navigation.state.params) { //Se existir o id
+            setId(navigation.state.params.idTask); //Pegando o id que veio como parâmetro pelo navigate e colocando dentro da variável de estado id
+        }
+        
         setMacaddress(Application.androidId);
     });
 
     return(
-        <KeyboardAvoidingView keyboardVerticalOffset={-100/*DEIXAR O FOOTER SEM APARECER*/} behavior="height" style={styles.container}>
+        <KeyboardAvoidingView keyboardVerticalOffset={-80/*DEIXAR O FOOTER SEM APARECER*/} behavior="height" style={styles.container}>
             <Header navigation={navigation} showBack={true}/>
             <ScrollView style={{width:'100%'}}>
 
@@ -110,7 +113,7 @@ export default function Task({navigation, idTask /*ESSA PROPS navigation QUE TÁ
                 <DateTimeInputAndroid type={'date'} save={setDate}/>
                 <DateTimeInputAndroid type={'hour'} save={setHour}/>
 
-                {idTask ?
+                {id ?
                 <View style={styles.inLine /*BOTÕES DE CONCLUIR E EXCLUIR*/}>
                     <View style={styles.inputInLine}>
                         <Switch onValueChange={() => setDone(!done)} value={done} thumbColor={done ? '#EE6B26' : '#20295F'}/>
