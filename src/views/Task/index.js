@@ -38,6 +38,7 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
     const [date, setDate] = useState();
     const [hour, setHour] = useState();
     const [macaddress, setMacaddress] = useState();
+    const [load, setLoad] = useState(true); //ìcone de load, e a tela já abre carregando
 
     async function New(){ //Essa função será executada quando criar uma nova tarefa
         //Alert.alert(`${date}T${hour}.000`);
@@ -69,12 +70,28 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
         });
     };
 
+    async function LoadTask(){
+        await api.get(`task/${id}`).then(response => {
+            setLoad(true);
+            setDone(response.data.done);
+            setTitle(response.data.title);
+            setDescription(response.data.description);
+            setDate(response.data.when);
+            setHour(response.data.when);
+        });
+    }
+
     useEffect(() => { //Essa função é achamda sempre que a tela carregar
+        setMacaddress(Application.androidId);
+
         if (navigation.state.params) { //Se existir o id
             setId(navigation.state.params.idTask); //Pegando o id que veio como parâmetro pelo navigate e colocando dentro da variável de estado id
+            LoadTask().then(() => { //carrega as informações da terefa
+                setLoad(false); //Desativa o ícone do load
+            });
         }
         
-        setMacaddress(Application.androidId);
+        
     });
 
     return(
@@ -95,20 +112,22 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
 
                 <Text style={styles.label}>Título</Text>
                 <TextInput 
-                onChangeText={(text) => setTitle(text)}
-                value={title}
-                style={styles.input} 
-                maxLength={30} 
-                placeholder={"Título..."}/>
+                    onChangeText={(text) => setTitle(text)}
+                    value={title}
+                    style={styles.input} 
+                    maxLength={30} 
+                    placeholder={"Título..."}
+                />
 
                 <Text style={styles.label}>Detalhes</Text>
                 <TextInput 
-                onChangeText={(text) => setDescription(text)}
-                value={description}
-                style={styles.inputArea} 
-                multiline={true} 
-                maxLength={200} 
-                placeholder={"Detalhes da atividade que eu tenho que lembrar..."}/>
+                    onChangeText={(text) => setDescription(text)}
+                    value={description}
+                    style={styles.inputArea} 
+                    multiline={true} 
+                    maxLength={200} 
+                    placeholder={"Detalhes da atividade que eu tenho que lembrar..."}
+                />
 
                 <DateTimeInputAndroid type={'date'} save={setDate}/>
                 <DateTimeInputAndroid type={'hour'} save={setHour}/>
