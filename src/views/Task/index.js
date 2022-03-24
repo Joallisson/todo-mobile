@@ -17,6 +17,8 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import DateTimeInputAndroid from "../../components/DateTimeInput/index.android";
 
+import format from "date-fns/format";
+
 //Importando biblioteca para obter um ID Único DO CELLULAR
 import * as Application from 'expo-application';
 
@@ -39,6 +41,7 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
     const [hour, setHour] = useState();
     const [macaddress, setMacaddress] = useState();
     const [load, setLoad] = useState(true); //ìcone de load, e a tela já abre carregando
+    const [taskNewScreen, setTaskNewScreen] = useState(true);
 
     async function New(){ //Essa função será executada quando criar uma nova tarefa
         //Alert.alert(`${date}T${hour}.000`);
@@ -70,9 +73,10 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
         });
     };
 
-    async function LoadTask(){
-        await api.get(`task/${id}`).then(response => {
+    async function LoadTask(){ //Carrega as tarefas 
+        await api.get(`task/${navigation.state.params.idTask}`).then(response => {
             setLoad(true);
+            setType(response.data.type);
             setDone(response.data.done);
             setTitle(response.data.title);
             setDescription(response.data.description);
@@ -81,22 +85,24 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
         });
     }
 
-    useEffect(() => { //Essa função é achamda sempre que a tela carregar
+    useEffect(() => { //Essa função é chamada sempre que a tela carregar
         setMacaddress(Application.androidId);
 
-        if (navigation.state.params) { //Se existir o id
-            setId(navigation.state.params.idTask); //Pegando o id que veio como parâmetro pelo navigate e colocando dentro da variável de estado id
-            LoadTask().then(() => { //carrega as informações da terefa
-                setLoad(false); //Desativa o ícone do load
-            });
+        if (navigation.state.params) { //Se existir o parâmetros no navigation
+            setId(navigation.state.params.idTask);  //Pegando o id que veio como parâmetro pelo navigate e colocando dentro da variável de estado id
+            LoadTask();
+            setTaskNewScreen(false)
         }
-        
-        
-    });
+    }, [hour]);
 
     return(
+        
         <KeyboardAvoidingView keyboardVerticalOffset={-80/*DEIXAR O FOOTER SEM APARECER*/} behavior="height" style={styles.container}>
             <Header navigation={navigation} showBack={true}/>
+
+            {
+                (hour != undefined || taskNewScreen) && //Se a hora estiver sido setada (Signifca que o usuário clicou para visualizar ou atualizar a tarefa) ou o usuário clicou no botão para criar uma nova tarefa
+
             <ScrollView style={{width:'100%'}}>
 
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginVertical: 10}}>
@@ -129,9 +135,10 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
                     placeholder={"Detalhes da atividade que eu tenho que lembrar..."}
                 />
 
-                <DateTimeInputAndroid type={'date'} save={setDate}/>
-                <DateTimeInputAndroid type={'hour'} save={setHour}/>
 
+                <DateTimeInputAndroid type={'date'} save={setDate} calendar={date}/>
+                <DateTimeInputAndroid type={'hour'} save={setHour} hour={hour}/>
+                
                 {id ?
                 <View style={styles.inLine /*BOTÕES DE CONCLUIR E EXCLUIR*/}>
                     <View style={styles.inputInLine}>
@@ -148,8 +155,10 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
                 }
 
             </ScrollView>
+            }
 
             <Footer icon={'save'} onPress={New}/>
         </KeyboardAvoidingView>
+        
     )
 }
