@@ -9,7 +9,8 @@ import {View,
         KeyboardAvoidingView,
         TouchableOpacity,
         Switch,
-        Alert
+        Alert,
+        ActivityIndicator
 } from 'react-native';
 
 //COMPONENTES
@@ -75,7 +76,7 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
 
     async function LoadTask(){ //Carrega as tarefas 
         await api.get(`task/${navigation.state.params.idTask}`).then(response => {
-            setLoad(true);
+            setLoad(false);
             setType(response.data.type);
             setDone(response.data.done);
             setTitle(response.data.title);
@@ -92,6 +93,8 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
             setId(navigation.state.params.idTask);  //Pegando o id que veio como parâmetro pelo navigate e colocando dentro da variável de estado id
             LoadTask();
             setTaskNewScreen(false)
+        }else{
+            setLoad(false);
         }
     }, [hour]);
 
@@ -100,62 +103,68 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
         <KeyboardAvoidingView keyboardVerticalOffset={-80/*DEIXAR O FOOTER SEM APARECER*/} behavior="height" style={styles.container}>
             <Header navigation={navigation} showBack={true}/>
 
-            {
-                (hour != undefined || taskNewScreen) && //Se a hora estiver sido setada (Signifca que o usuário clicou para visualizar ou atualizar a tarefa) ou o usuário clicou no botão para criar uma nova tarefa
+            { load ? //Se o load for verdadeiro carrega o ícone de carregar
 
-            <ScrollView style={{width:'100%'}}>
-
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginVertical: 10}}>
-                    {
-                        typeIcons.map((icon, index) =>(
-                            icon != null &&
-                            <TouchableOpacity onPress={() => setType(index)} key={index}>
-                                <Image key={index} source={icon} style={[styles.imageIcon, type && type != index && styles.typeIconInative]}/>
-                            </TouchableOpacity>
-                        ))
-                    }
-                </ScrollView>
-
-                <Text style={styles.label}>Título</Text>
-                <TextInput 
-                    onChangeText={(text) => setTitle(text)}
-                    value={title}
-                    style={styles.input} 
-                    maxLength={30} 
-                    placeholder={"Título..."}
-                />
-
-                <Text style={styles.label}>Detalhes</Text>
-                <TextInput 
-                    onChangeText={(text) => setDescription(text)}
-                    value={description}
-                    style={styles.inputArea} 
-                    multiline={true} 
-                    maxLength={200} 
-                    placeholder={"Detalhes da atividade que eu tenho que lembrar..."}
-                />
-
-
-                <DateTimeInputAndroid type={'date'} save={setDate} calendar={date}/>
-                <DateTimeInputAndroid type={'hour'} save={setHour} hour={hour}/>
-                
-                {id ?
-                <View style={styles.inLine /*BOTÕES DE CONCLUIR E EXCLUIR*/}>
-                    <View style={styles.inputInLine}>
-                        <Switch onValueChange={() => setDone(!done)} value={done} thumbColor={done ? '#EE6B26' : '#20295F'}/>
-                        <Text style={styles.switchLabel}>Concluído</Text>
-                    </View>
-
-                    <TouchableOpacity>
-                        <Text style={styles.removeLabel}>EXCLUIR</Text>
-                    </TouchableOpacity>
-                </View>
-                :
-                <View style={{paddingBottom: 100}}/> //Senão aparecer os botões acima, então deve ser exibid uma view com um espaçamento
-                }
-
-            </ScrollView>
+                <ActivityIndicator style={{marginTop: 150}} color="#EE6B26" size={50}/>
+                : //Senão carrega o restante da tela
+                <View/>
             }
+                { (hour != undefined || taskNewScreen) && //Se a hora estiver sido setada (Signifca que o usuário clicou para visualizar ou atualizar a tarefa) ou o usuário clicou no botão para criar uma nova tarefa
+
+                <ScrollView style={{width:'100%'}}>
+
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginVertical: 10}}>
+                        {
+                            typeIcons.map((icon, index) =>(
+                                icon != null &&
+                                <TouchableOpacity onPress={() => setType(index)} key={index}>
+                                    <Image key={index} source={icon} style={[styles.imageIcon, type && type != index && styles.typeIconInative]}/>
+                                </TouchableOpacity>
+                            ))
+                        }
+                    </ScrollView>
+
+                    <Text style={styles.label}>Título</Text>
+                    <TextInput 
+                        onChangeText={(text) => setTitle(text)}
+                        value={title}
+                        style={styles.input} 
+                        maxLength={30} 
+                        placeholder={"Título..."}
+                    />
+
+                    <Text style={styles.label}>Detalhes</Text>
+                    <TextInput 
+                        onChangeText={(text) => setDescription(text)}
+                        value={description}
+                        style={styles.inputArea} 
+                        multiline={true} 
+                        maxLength={200} 
+                        placeholder={"Detalhes da atividade que eu tenho que lembrar..."}
+                    />
+
+
+                    <DateTimeInputAndroid type={'date'} save={setDate} calendar={date}/>
+                    <DateTimeInputAndroid type={'hour'} save={setHour} hour={hour}/>
+                    
+                    {id ?
+                    <View style={styles.inLine /*BOTÕES DE CONCLUIR E EXCLUIR*/}>
+                        <View style={styles.inputInLine}>
+                            <Switch onValueChange={() => setDone(!done)} value={done} thumbColor={done ? '#EE6B26' : '#20295F'}/>
+                            <Text style={styles.switchLabel}>Concluído</Text>
+                        </View>
+
+                        <TouchableOpacity>
+                            <Text style={styles.removeLabel}>EXCLUIR</Text>
+                        </TouchableOpacity>
+                    </View>
+                    :
+                    <View style={{paddingBottom: 100}}/> //Senão aparecer os botões acima, então deve ser exibid uma view com um espaçamento
+                    }
+
+                </ScrollView>
+                }
+            
 
             <Footer icon={'save'} onPress={New}/>
         </KeyboardAvoidingView>
