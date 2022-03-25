@@ -31,7 +31,7 @@ export default function Home({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
     }
 
     async function lateVerify(){ //Carregar tarefas sempre que o usuário clicar nos filtros
-        await api.get('/task/filter/late/11:11:11:11:11:11') //Vericar as tarefas atrasadas
+        await api.get(`/task/filter/late/${macaddress}`) //Vericar as tarefas atrasadas
         .then(response => { //Se der tudo certo na requisição
             setLateCount(response.data.length) //Conta quantas tarefas atrasadas tem
         })

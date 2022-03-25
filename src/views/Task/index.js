@@ -44,7 +44,7 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
     const [load, setLoad] = useState(true); //ìcone de load, e a tela já abre carregando
     const [taskNewScreen, setTaskNewScreen] = useState(true);
 
-    async function New(){ //Essa função será executada quando criar uma nova tarefa
+    async function SaveTask(){ //Essa função será executada quando criar uma nova tarefa
         //Alert.alert(`${date}T${hour}.000`);
 
         if (!title) {
@@ -63,15 +63,29 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
             return Alert.alert("Defina o horário da terefa");
         }
 
-        await api.post('/Task', {
-            macaddress,
-            title,
-            description,
-            type,
-            when: `${date}T${hour}.000`
-        }).then(() => {
-            navigation.navigate('Home');
-        });
+        if (id) { //Se tiver id então é pra atualizar uma tarefa
+            await api.put(`/Task/${id}`, {
+                macaddress,
+                title,
+                done,
+                description,
+                type,
+                when: `${date}T${hour}.000`
+            }).then(() => {
+                navigation.navigate('Home');
+            });
+        } else {
+            await api.post('/Task', { //Senão tiver id então é pra cadstrar uma nova tarefa
+                macaddress,
+                title,
+                description,
+                type,
+                when: `${date}T${hour}.000`
+            }).then(() => {
+                navigation.navigate('Home');
+            });
+        }
+
     };
 
     async function LoadTask(){ //Carrega as tarefas 
@@ -166,7 +180,7 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
                 }
             
 
-            <Footer icon={'save'} onPress={New}/>
+            <Footer icon={'save'} onPress={SaveTask}/>
         </KeyboardAvoidingView>
         
     )

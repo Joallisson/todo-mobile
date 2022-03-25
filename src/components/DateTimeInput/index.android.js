@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
-import DateTimePicker from '@react-native-community/datetimepicker'; //Importando DateTimePicker que é responsável por capturar a data e hora
+import DateTimePicker, {RNDateTimePicker} from '@react-native-community/datetimepicker'; //Importando DateTimePicker que é responsável por capturar a data e hora
 import format from "date-fns/format"; //Importando função para formatar datas
-import parseISO from "date-fns/parseISO"; //Importando função para formatar converter strings em objetos de datas
+import { isPast} from 'date-fns';
 import {
     TouchableOpacity,
     Image,
@@ -23,17 +23,27 @@ export default function DateTimeInputAndroid({type, save, calendar, hour}){
     
 
     const onChange = (event, selectedDate) => { //Função que serve para atribuir nas váriaveis criadas a data e hora e se mostra ou esconde o calendário e o relógio
-        const currentDate = selectedDate || date; //Criando constante que recebe: ou a data e hora selecionadas pelo usuário, ou a data e hora atual
-        setShow(false); //Quando o usuario escolher a data ou hora, então o componente que seleciona a data e hora não será mais exibido
-        setDate(currentDate); //Atribuindo a constante "currentDate" a variável de estado "date" para determinar a data e hora
-        //setShow(Platform.OS === 'ios'); //Verificando qual a plataforma do que o app está rodando
+      
+      
         
-        if (type == 'date') {
-          save(format(currentDate, 'yyyy-MM-dd')); //Modificando o date para ficar no formato do MongoDB
+        const currentDate = selectedDate || date; //Criando constante que recebe: ou a data e hora selecionadas pelo usuário, ou a data e hora atual
+        
 
-        } else {
-          save(format(currentDate, 'HH:mm:ss')); //Modificando o hour para ficar no formato do MongoDB
-        }
+        setShow(false); //Quando o usuario escolher a data ou hora, então o componente que seleciona a data e hora não será mais exibido
+
+          console.log(currentDate);
+
+
+          setDate(currentDate); //Atribuindo a constante "currentDate" a variável de estado "date" para determinar a data e hora
+          //setShow(Platform.OS === 'ios'); //Verificando qual a plataforma do que o app está rodando
+
+          if (type == 'date') {
+            save(format(currentDate, 'yyyy-MM-dd')); //Modificando o date para ficar no formato do MongoDB
+
+          } else {
+            save(format(currentDate, 'HH:mm:ss')); //Modificando o hour para ficar no formato do MongoDB
+          }
+
     };
 
 
@@ -95,9 +105,11 @@ export default function DateTimeInputAndroid({type, save, calendar, hour}){
               mode={mode}
               is24Hour={true}
               display="default"
+              MinimumDate = { new  Date ( 2022 ,  3 ,  22 ) }
               onChange={onChange}
             />
           )}
+
         </TouchableOpacity>
       );
 }
