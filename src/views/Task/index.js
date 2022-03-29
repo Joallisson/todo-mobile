@@ -18,7 +18,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import DateTimeInputAndroid from "../../components/DateTimeInput/index.android";
 
-import format from "date-fns/format";
+import {format, isPast} from "date-fns";
 
 //Importando biblioteca para obter um ID Único DO CELLULAR
 import * as Application from 'expo-application';
@@ -47,11 +47,12 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
     async function SaveTask(){ //Essa função será executada quando criar uma nova tarefa
         //Alert.alert(`${date}T${hour}.000`);
 
+
         if (!title) {
             return Alert.alert("Defina o nome da terefa");
         }
         if (!type) {
-            return Alert.alert("Defina o tipo da terefa");
+            return Alert.alert("Defina o tipo da terefa"); 
         }
         if(!description){
             return Alert.alert("Defina a descrição da terefa");
@@ -63,7 +64,14 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
             return Alert.alert("Defina o horário da terefa");
         }
 
+        if(isPast(new Date(`${date}T${hour}.000`))){
+            return Alert.alert("Você não pode adicionar uma data no passado!");
+        }
+
         if (id) { //Se tiver id então é pra atualizar uma tarefa
+
+            console.log(`DATA ATUALIZADA: ${date}T${hour}.000`);
+
             await api.put(`/Task/${id}`, {
                 macaddress,
                 title,
@@ -73,7 +81,9 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
                 when: `${date}T${hour}.000`
             }).then(() => {
                 navigation.navigate('Home');
-            });
+            }).catch((error) => {
+                console.log(error);
+            })
         } else {
             await api.post('/Task', { //Senão tiver id então é pra cadstrar uma nova tarefa
                 macaddress,
