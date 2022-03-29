@@ -43,6 +43,7 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
     const [macaddress, setMacaddress] = useState();
     const [load, setLoad] = useState(true); //ìcone de load, e a tela já abre carregando
     const [taskNewScreen, setTaskNewScreen] = useState(true);
+    const [soUmaVez, setSoUmaVez] = useState(false); //Essa constante tem que carregar apenas uma vez, e depois que alterar essa constante o restante da tela deve ser carregada para o usuário
 
     async function SaveTask(){ //Essa função será executada quando criar uma nova tarefa
         //Alert.alert(`${date}T${hour}.000`);
@@ -107,6 +108,7 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
             setDescription(response.data.description);
             setDate(response.data.when);
             setHour(response.data.when);
+            setSoUmaVez(true);
         });
     }
 
@@ -115,12 +117,14 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
 
         if (navigation.state.params) { //Se existir o parâmetros no navigation
             setId(navigation.state.params.idTask);  //Pegando o id que veio como parâmetro pelo navigate e colocando dentro da variável de estado id
-            LoadTask();
+            if(!soUmaVez){
+                LoadTask();
+            }
             setTaskNewScreen(false)
         }else{
             setLoad(false);
         }
-    }, [hour]);
+    }, [soUmaVez]);
 
     return(
         
@@ -133,7 +137,7 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
                 : //Senão carrega o restante da tela
                 <View/>
             }
-                { (hour != undefined || taskNewScreen) && //Se a hora estiver sido setada (Signifca que o usuário clicou para visualizar ou atualizar a tarefa) ou o usuário clicou no botão para criar uma nova tarefa
+                { (soUmaVez == true || taskNewScreen) && //Se a hora estiver sido setada (Signifca que o usuário clicou para visualizar ou atualizar a tarefa) ou o usuário clicou no botão para criar uma nova tarefa
 
                 <ScrollView style={{width:'100%'}}>
 

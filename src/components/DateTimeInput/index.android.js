@@ -30,10 +30,10 @@ export default function DateTimeInputAndroid({type, save, calendar, hour}){
         //setShow(Platform.OS === 'ios'); //Verificando qual a plataforma do que o app está rodando
 
         if (type == 'date') {
-          //save(format(currentDate, 'yyyy-MM-dd')); //Modificando o date para ficar no formato do MongoDB
+          save(format(currentDate, 'yyyy-MM-dd')); //Modificando o date para ficar no formato do MongoDB
 
         } else {
-          //save(format(currentDate, 'HH:mm:ss')); //Modificando o hour para ficar no formato do MongoDB
+          save(format(currentDate, 'HH:mm:ss')); //Modificando o hour para ficar no formato do MongoDB
 
         }
         
@@ -42,15 +42,13 @@ export default function DateTimeInputAndroid({type, save, calendar, hour}){
 
     useEffect(() => {
       if(type == 'date' && calendar != undefined){ //Se o usuṕario quiser visualizar ou atualizar uma tarefa
-        //setDate(new Date(calendar));
-        //save(format(new Date(calendar), 'yyyy-MM-dd')); //Modificando o date para ficar no formato do MongoDB
-        //console.log(date);
+        setDate(new Date(calendar));
+        save(format(new Date(calendar), 'yyyy-MM-dd')); //Modificando o date para ficar no formato do MongoDB
       }
 
       if(type == 'hour' && hour != undefined){ //Se o usuṕario quiser visualizar ou atualizar uma tarefa
-        //setDate(new Date(hour));
-        //save(format(new Date(hour), 'HH:mm:ss')); //Modificando o date para ficar no formato do MongoDB
-        //console.log(date);
+        setDate(new Date(hour));
+        save(format(new Date(hour), 'HH:mm:ss')); //Modificando o date para ficar no formato do MongoDB
       }
     }, [])
     
