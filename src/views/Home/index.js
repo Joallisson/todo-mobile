@@ -110,7 +110,7 @@ export default function Home({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
                     <TaskCard 
                         key={item._id} 
                         type={item.type} 
-                        done={false}
+                        done={item.done}
                         when={item.when} 
                         title={item.title}
                         onPress={() => Show(item._id) /*ENVIANDO A FUNÇÃO SHOW PARA O COMPONENTE TaskCard COMO PROPS*/}
