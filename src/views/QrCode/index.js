@@ -48,6 +48,10 @@ export default function QrCode({navigation}){
             <View style={styles.header}>
                 <Text style={styles.headerText}>Conectar com minha conta na web</Text>
             </View>
+
+            <View>
+                <TouchableOpacity style={styles.buttonBack} onPress={() => navigation.navigate('Home')}/>
+            </View>
         </View>
     )
 }
