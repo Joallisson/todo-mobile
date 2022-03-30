@@ -2,13 +2,15 @@ import { SafeAreaView, StatusBar } from 'react-native';
 
 import Home from './src/views/Home';
 import Task from './src/views/Task';
+import QrCode from './src/views/QrCode';
 
 import {createAppContainer, createSwitchNavigator} from 'react-navigation'; //Biblioteca para navegação entre telas
 
 const Routes = createAppContainer( //Cria um container que contém as telas
   createSwitchNavigator({ //Cria a navegação entre as telas
     Home,
-    Task
+    Task,
+    QrCode
   })
 );
 

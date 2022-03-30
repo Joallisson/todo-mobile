@@ -57,7 +57,7 @@ export default function Home({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
 
     return (
         <View style={styles.container}>
-            <Header late={lateCount} pressNotification={Notification/*passando como props uma função para mostrar as notificações*/} showNotification={true /*PASSANDO UMA PROPS DE NOTIFICAÇÃO*/} showBack={false /*PASSANDO UMA PROPS  DE VOLTAR UMA TELA*/}/>
+            <Header late={lateCount} navigation={navigation} pressNotification={Notification/*passando como props uma função para mostrar as notificações*/} showNotification={true /*PASSANDO UMA PROPS DE NOTIFICAÇÃO*/} showBack={false /*PASSANDO UMA PROPS  DE VOLTAR UMA TELA*/}/>
 
             <View style={styles.filter}>
                 <TouchableOpacity onPress={() => setFilter("all")}>
