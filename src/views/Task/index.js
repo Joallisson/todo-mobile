@@ -71,8 +71,6 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
 
         if (id) { //Se tiver id então é pra atualizar uma tarefa
 
-            console.log(`DATA ATUALIZADA: ${date}T${hour}.000`);
-
             await api.put(`/Task/${id}`, {
                 macaddress,
                 title,
@@ -110,6 +108,24 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
             setHour(response.data.when);
             setSoUmaVez(true);
         });
+    }
+
+    async function DeleteTask(){
+        await api.delete(`/task/${id}`).then(() => {
+            navigation.navigate('Home');
+        });
+    }
+
+    function Remove(){ //Exibe uma mensagem perguntando ao usuário se ele deseja excluir uma tarefa
+        Alert.alert(
+            "Remover Tarefa", //Título do alerta
+            "Deseja realmente remover essa tarefa?", //Texto da mensagem
+            [
+                {text: 'Cancelar'}, //Botão da Mensagem pro usuário cancelar
+                {text: 'Confirmar', onPress: () => DeleteTask()} //Botão da mensagem pro usuário confirmar
+            ],
+            {cancelable: true}
+        );
     }
 
     useEffect(() => { //Essa função é chamada sempre que a tela carregar
@@ -182,7 +198,7 @@ export default function Task({navigation /*ESSA PROPS navigation QUE TÁ DENTRO 
                             <Text style={styles.switchLabel}>Concluído</Text>
                         </View>
 
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={Remove}>
                             <Text style={styles.removeLabel}>EXCLUIR</Text>
                         </TouchableOpacity>
                     </View>
