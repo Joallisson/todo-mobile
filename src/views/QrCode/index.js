@@ -54,7 +54,7 @@ export default function QrCode({navigation}){
                     <Text style={styles.textButton}>VOLTAR</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.buttonScanActive} onPress={() => setScanned(false)}>
+                <TouchableOpacity style={scanned ? styles.buttonScanActive : styles.buttonScanInative} onPress={() => setScanned(false)}>
                     <Text style={styles.textButton}>SCAN NOVAMENTE</Text>
                 </TouchableOpacity>
             </View>
